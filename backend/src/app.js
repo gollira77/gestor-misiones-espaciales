@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
-
-console.log("A. app.js se está ejecutando");
+import missionsRoutes from "./routes/missions.routes.js";
 
 const app = express();
 
@@ -13,5 +12,7 @@ app.get("/", (req, res) => {
     message: "API de Gestor de Misiones Espaciales funcionando correctamente"
   });
 });
+
+app.use("/api/missions", missionsRoutes);
 
 export default app;
