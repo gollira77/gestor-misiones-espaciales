@@ -12,9 +12,16 @@ function MissionSearch({ setSearch }) {
     return (
         <input
         type="text"
-        placeholder="Buscar misión..."
+        placeholder="🔍 Buscar misión..."
         value={value}
         onChange={handleChange}
+        style={{
+            width: "100%",
+            padding: "10px",
+            marginBottom: "20px",
+            borderRadius: "5px",
+            border: "none"
+        }}
         />
     );
 }

@@ -41,14 +41,28 @@ function MissionForm({ onCreate, onUpdate, editingMission }) {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form
+        onSubmit={handleSubmit}
+        style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+            marginBottom: "20px"
+        }}
+        >
         <input name="nombre" value={form.nombre} onChange={handleChange} placeholder="Nombre" />
         <input name="destino" value={form.destino} onChange={handleChange} placeholder="Destino" />
         <input name="comandante" value={form.comandante} onChange={handleChange} placeholder="Comandante" />
         <input name="tripulantes" type="number" value={form.tripulantes} onChange={handleChange} />
         <input name="estado" value={form.estado} onChange={handleChange} />
 
-        <button type="submit">
+        <button style={{
+            padding: "8px",
+            background: "#00ffff",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer"
+        }}>
             {editingMission ? "Actualizar" : "Crear"}
         </button>
         </form>

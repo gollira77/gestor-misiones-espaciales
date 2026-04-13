@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { animate } from "animejs";
 import {
   getMissions,
   createMission,
@@ -33,6 +34,15 @@ function App() {
     loadMissions();
   }, [search]);
 
+  useEffect(() => {
+    animate("h1", {
+    opacity: [0, 1],
+    translateY: [-50, 0],
+    duration: 1000,
+    easing: "ease-out"
+  });
+  }, []);
+
   const handleCreate = async (formData) => {
     await createMission(formData);
     loadMissions();
@@ -50,25 +60,31 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>🚀 Gestor de Misiones Espaciales</h1>
+    <div style={{
+      minHeight: "100vh",
+      background: "linear-gradient(black, #020024)",
+      padding: "20px",
+      color: "white"
+    }}>
 
-      <MissionSearch setSearch={setSearch} />
+    <h1 style={{ textAlign: "center" }}>Gestor de Misiones Espaciales</h1>
 
-      <MissionForm
-        onCreate={handleCreate}
-        onUpdate={handleUpdate}
-        editingMission={editingMission}
-      />
+    <MissionSearch setSearch={setSearch} />
 
-      {loading && <p>Cargando...</p>}
-      {error && <p>{error}</p>}
+    <MissionForm
+      onCreate={handleCreate}
+      onUpdate={handleUpdate}
+      editingMission={editingMission}
+    />
 
-      <MissionList
-        missions={missions}
-        onDelete={handleDelete}
-        onEdit={setEditingMission}
-      />
+    {loading && <p style={{ textAlign: "center" }}>Cargando...</p>}
+    {error && <p style={{ textAlign: "center", color: "red" }}>{error}</p>}
+
+    <MissionList
+      missions={missions}
+      onDelete={handleDelete}
+      onEdit={setEditingMission}
+    />
     </div>
   );
 }
