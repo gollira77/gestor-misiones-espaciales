@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { animate } from "animejs";
+
 import {
   getMissions,
   createMission,
@@ -34,13 +35,13 @@ function App() {
     loadMissions();
   }, [search]);
 
+  // ✨ animación del título
   useEffect(() => {
     animate("h1", {
-    opacity: [0, 1],
-    translateY: [-50, 0],
-    duration: 1000,
-    easing: "ease-out"
-  });
+      opacity: [0, 1],
+      translateY: [-40, 0],
+      duration: 1000
+    });
   }, []);
 
   const handleCreate = async (formData) => {
@@ -60,33 +61,61 @@ function App() {
   };
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      background: "linear-gradient(black, #020024)",
-      padding: "20px",
-      color: "white"
-    }}>
+    <div style={styles.container}>
+      {/* 🌠 Fondo de estrellas */}
+      <div id="stars"></div>
 
-    <h1 style={{ textAlign: "center" }}>Gestor de Misiones Espaciales</h1>
+      <h1 style={styles.title}>
+        🚀 Gestor de Misiones Espaciales
+      </h1>
 
-    <MissionSearch setSearch={setSearch} />
+      <MissionSearch setSearch={setSearch} />
 
-    <MissionForm
-      onCreate={handleCreate}
-      onUpdate={handleUpdate}
-      editingMission={editingMission}
-    />
+      <MissionForm
+        onCreate={handleCreate}
+        onUpdate={handleUpdate}
+        editingMission={editingMission}
+      />
 
-    {loading && <p style={{ textAlign: "center" }}>Cargando...</p>}
-    {error && <p style={{ textAlign: "center", color: "red" }}>{error}</p>}
+      {loading && <p style={styles.loading}>Cargando...</p>}
+      {error && <p style={styles.error}>{error}</p>}
 
-    <MissionList
-      missions={missions}
-      onDelete={handleDelete}
-      onEdit={setEditingMission}
-    />
+      <MissionList
+        missions={missions}
+        onDelete={handleDelete}
+        onEdit={setEditingMission}
+      />
     </div>
   );
 }
+
+const styles = {
+  container: {
+    minHeight: "100vh",
+    background: "radial-gradient(circle at center, #020024, #000000 80%)",
+    color: "white",
+    padding: "20px",
+    fontFamily: "Arial",
+    position: "relative",
+    overflow: "hidden"
+  },
+
+  title: {
+    textAlign: "center",
+    fontSize: "2.5rem",
+    marginBottom: "20px",
+    textShadow: "0 0 10px #00ffff"
+  },
+
+  loading: {
+    textAlign: "center",
+    color: "#00ffff"
+  },
+
+  error: {
+    textAlign: "center",
+    color: "red"
+  }
+};
 
 export default App;

@@ -4,20 +4,21 @@ import { validarMission } from "../utils/mission.validators.js";
 export function getAllMissions(req, res) {
     const { search } = req.query;
 
-    if (!search) {
-        return res.status(200).json(missions);
+    // normalizar búsqueda
+    const searchLower = search?.toLowerCase().trim() || "";
+
+    let result = missions;
+
+    if (searchLower) {
+        result = missions.filter((mission) =>
+            mission.nombre.toLowerCase().includes(searchLower) ||
+            mission.destino.toLowerCase().includes(searchLower)
+        );
     }
 
-    const searchLower = search.toLowerCase();
-
-    const filtered = missions.filter((mission) =>
-        mission.nombre.toLowerCase().includes(searchLower) ||
-        mission.destino.toLowerCase().includes(searchLower)
-    );
-
     res.status(200).json({
-        count: missions.length,
-        data: missions
+        count: result.length,
+        data: result
     });
 }
 
