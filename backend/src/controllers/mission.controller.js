@@ -2,21 +2,23 @@ import { missions } from "../data/missions.data.js";
 import { validarMission } from "../utils/mission.validators.js";
 
 export function getAllMissions(req, res) {
-    res.status(200).json(missions);
+    const { search } = req.query;
+
+    if (!search) {
+        return res.status(200).json(missions);
     }
 
-    export function getMissionById(req, res) {
-    const id = Number(req.params.id);
+    const searchLower = search.toLowerCase();
 
-    const mission = missions.find((mission) => mission.id === id);
+    const filtered = missions.filter((mission) =>
+        mission.nombre.toLowerCase().includes(searchLower) ||
+        mission.destino.toLowerCase().includes(searchLower)
+    );
 
-    if (!mission) {
-        return res.status(404).json({
-        error: "Misión no encontrada."
-        });
-    }
-
-    res.status(200).json(mission);
+    res.status(200).json({
+        count: missions.length,
+        data: missions
+    });
 }
 
 export function createMission(req, res) {
@@ -42,7 +44,10 @@ export function createMission(req, res) {
 
     missions.push(newMission);
 
-    res.status(201).json(newMission);
+    res.status(201).json({
+        message: "Misión creada correctamente",
+        data: newMission
+    });
 }
 
 export function updateMission(req, res) {

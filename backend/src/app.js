@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import missionsRoutes from "./routes/missions.routes.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
 
@@ -14,5 +15,13 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/missions", missionsRoutes);
+
+app.use((req, res) => {
+  res.status(404).json({
+    error: "Ruta no encontrada"
+  });
+});
+
+app.use(errorHandler);
 
 export default app;
