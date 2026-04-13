@@ -21,6 +21,22 @@ export function getAllMissions(req, res) {
     });
 }
 
+export function getMissionById(req, res) {
+    const id = Number(req.params.id);
+
+    const mission = missions.find((mission) => mission.id === id);
+
+    if (!mission) {
+        return res.status(404).json({
+            error: "Misión no encontrada."
+        });
+    }
+
+    res.status(200).json({
+        data: mission
+    });
+}
+
 export function createMission(req, res) {
     const errores = validarMission(req.body);
 
