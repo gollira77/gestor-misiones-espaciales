@@ -13,7 +13,7 @@ export async function getMissions(search = "") {
 }
 
 export async function getMissionById(id) {
-    const res = await fetch(`http://localhost:3001/api/missions/${id}`);
+    const res = await fetch(`https://backend-misiones.onrender.com/${id}`);
 
     if (!res.ok) throw new Error("Error al obtener la misión");
 
