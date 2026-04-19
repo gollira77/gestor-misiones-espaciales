@@ -1,51 +1,60 @@
-const BASE_URL = "https://localhost:3001/api/missions";
+const BASE_URL = "http://localhost:3001/api/missions";
 
 export async function getMissions(search = "") {
     const url = search
-        ? `${BASE_URL}?search=${search}`
+        ? `${BASE_URL}?search=${encodeURIComponent(search)}`
         : BASE_URL;
 
     const res = await fetch(url);
 
-    if (!res.ok) throw new Error("Error al obtener misiones");
+    if (!res.ok) {
+        throw new Error("Error al obtener misiones");
+    }
 
-    return res.json();
+    const data = await res.json();
+    return data;
 }
 
 export async function getMissionById(id) {
-    const res = await fetch(`https://localhost:3001/api/missions${id}`);
+    const res = await fetch(`${BASE_URL}/${id}`);
 
-    if (!res.ok) throw new Error("Error al obtener la misión");
+    if (!res.ok) {
+        throw new Error("Error al obtener la misión");
+    }
 
-    return res.json();
+    return await res.json();
 }
 
-export async function createMission(data) {
+export async function createMission(mission) {
     const res = await fetch(BASE_URL, {
         method: "POST",
         headers: {
         "Content-Type": "application/json"
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(mission)
     });
 
-    if (!res.ok) throw new Error("Error al crear misión");
+    if (!res.ok) {
+        throw new Error("Error al crear misión");
+    }
 
-    return res.json();
+    return await res.json();
 }
 
-export async function updateMission(id, data) {
+export async function updateMission(id, mission) {
     const res = await fetch(`${BASE_URL}/${id}`, {
         method: "PUT",
         headers: {
         "Content-Type": "application/json"
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(mission)
     });
 
-    if (!res.ok) throw new Error("Error al actualizar misión");
+    if (!res.ok) {
+        throw new Error("Error al actualizar misión");
+    }
 
-    return res.json();
+    return await res.json();
 }
 
 export async function deleteMission(id) {
@@ -53,7 +62,9 @@ export async function deleteMission(id) {
         method: "DELETE"
     });
 
-    if (!res.ok) throw new Error("Error al eliminar misión");
+    if (!res.ok) {
+        throw new Error("Error al eliminar misión");
+    }
 
-    return res.json();
+    return await res.json();
 }
