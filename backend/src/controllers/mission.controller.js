@@ -3,8 +3,7 @@ import { validarMission } from "../utils/mission.validators.js";
 
 export function getAllMissions(req, res) {
     const { search } = req.query;
-
-    // normalizar búsqueda
+    
     const searchLower = search?.toLowerCase().trim() || "";
 
     let result = missions;

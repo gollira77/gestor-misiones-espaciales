@@ -1,4 +1,4 @@
-const BASE_URL = "https://backend-misiones.onrender.com";
+const BASE_URL = "https://localhost:3001/api/missions";
 
 export async function getMissions(search = "") {
     const url = search
