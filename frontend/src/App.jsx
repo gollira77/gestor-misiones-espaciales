@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { animate } from "animejs";
 
 import {
@@ -18,6 +18,19 @@ function App() {
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
   const [editingMission, setEditingMission] = useState(null);
+
+  const filteredMissions = useMemo(() => {
+
+  if (!search.trim()) {
+    return missions;
+  }
+
+  return missions.filter((mission) =>
+    mission.nombre.toLowerCase().includes(search.toLowerCase()) ||
+    mission.destino.toLowerCase().includes(search.toLowerCase())
+  );
+
+}, [missions, search]);
 
   const loadMissions = async () => {
     try {
@@ -44,25 +57,25 @@ function App() {
     });
   }, []);
 
-  const handleCreate = async (formData) => {
+
+  const handleCreate = useCallback(async (formData) => {
     await createMission(formData);
     loadMissions();
-  };
+  }, []);
 
-  const handleUpdate = async (id, formData) => {
+  const handleUpdate = useCallback(async (id, formData) => {
     await updateMission(id, formData);
     setEditingMission(null);
     loadMissions();
-  };
+  }, []);
 
-  const handleDelete = async (id) => {
+  const handleDelete = useCallback(async (id) => {
     await deleteMission(id);
     loadMissions();
-  };
+  }, []);
 
   return (
     <div style={styles.container}>
-      {/* 🌠 Fondo de estrellas */}
       <div id="stars"></div>
 
       <h1 style={styles.title}>
@@ -81,7 +94,7 @@ function App() {
       {error && <p style={styles.error}>{error}</p>}
 
       <MissionList
-        missions={missions}
+        missions={filteredMissions}
         onDelete={handleDelete}
         onEdit={setEditingMission}
       />

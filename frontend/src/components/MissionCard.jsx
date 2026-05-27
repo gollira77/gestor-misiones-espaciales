@@ -1,10 +1,9 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { animate } from "animejs";
 
 function MissionCard({ mission, onDelete, onEdit }) {
     const cardRef = useRef(null);
 
-    // ✨ Animación de entrada
     useEffect(() => {
         animate(cardRef.current, {
         translateY: [40, 0],
@@ -13,7 +12,6 @@ function MissionCard({ mission, onDelete, onEdit }) {
         });
     }, []);
 
-    // 💥 Animación de eliminar
     const handleDelete = () => {
         animate(cardRef.current, {
         scale: [1, 0.8],
@@ -101,4 +99,4 @@ function MissionCard({ mission, onDelete, onEdit }) {
     }
 };
 
-export default MissionCard;
+export default React.memo(MissionCard);
